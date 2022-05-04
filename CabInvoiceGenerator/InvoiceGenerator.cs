@@ -8,6 +8,7 @@ namespace CabInvoiceGenerator
 {
     public class InvoiceGenerator
     {
+        public RideType type;
         RideRepository rideRepository = new RideRepository();
         /// <summary>
         /// Declaring some variable
@@ -18,11 +19,28 @@ namespace CabInvoiceGenerator
         /// <summary>
         /// Creating a constructor
         /// </summary>
-        public InvoiceGenerator()
+        public InvoiceGenerator(RideType type)
         {
-            this.MINIMUM_COST_PER_KM = 10;
-            this.COST_PER_TIME = 1;
-            this.MINIMUM_FARE = 5;
+            this.type = type;
+            try
+            {
+                if(this.type.Equals(RideType.NORMAL))
+                {
+                    this.MINIMUM_COST_PER_KM = 10;
+                    this.COST_PER_TIME = 1;
+                    this.MINIMUM_FARE = 5; 
+                }
+                if(this.type.Equals(RideType.PREMIUM))
+                {
+                    this.MINIMUM_COST_PER_KM = 10;
+                    this.COST_PER_TIME = 1;
+                    this.MINIMUM_FARE = 5;
+                }
+            }
+            catch(Exception)
+            {
+                throw new CabInvoiceException(CabInvoiceException.ExceptionType.INVALID_TYPE, "Invalid ride type");
+            }
         }
         /// <summary>
         /// Creating method for calculating Totalfare based on distance and time
